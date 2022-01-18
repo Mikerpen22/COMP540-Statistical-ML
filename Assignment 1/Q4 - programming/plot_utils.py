@@ -28,7 +28,8 @@ from matplotlib import cm
 
 def make_surface_plot(X,Y,Z,xlabel,ylabel):
     fig = plt.figure()
-    ax = fig.axes(projection='3d')
+    # ax = fig.axes(projection='3d')
+    ax = fig.add_subplot(projection='3d')
     ax.plot_surface(X, Y, Z,cmap=cm.jet)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel);

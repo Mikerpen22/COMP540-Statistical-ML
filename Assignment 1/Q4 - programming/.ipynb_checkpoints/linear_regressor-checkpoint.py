@@ -81,14 +81,13 @@ class LinearRegressor:
         - y_pred: Predicted output for the data in X. y_pred is a 1-dimensional
         array of length N, and each element is a real number.
         """
-        y_pred = np.zeros(X.shape[0])
+        y_pred = np.zeros(X.shape[0])   # shape = (1, 506)
         ###########################################################################
         # TODO:                                                                   #
         # Implement this method. Store the predicted outputs in y_pred.           #
         #    One line of code expected                                            #
         ###########################################################################
-
-
+        y_pred = np.matmul(self.theta, X.T)   
 
         ###########################################################################
         #                           END OF YOUR CODE                              #
