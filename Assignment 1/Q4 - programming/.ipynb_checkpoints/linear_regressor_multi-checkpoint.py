@@ -43,6 +43,7 @@ class LinearRegressor_Multi:
             #########################################################################
             self.theta = self.theta - learning_rate * grad
 
+
             #########################################################################
             #                       END OF YOUR CODE                                #
             #########################################################################
@@ -105,6 +106,7 @@ class LinearRegressor_Multi:
         ###########################################################################
         theta_n = np.matmul(np.linalg.inv(np.matmul(X.T,X)), np.matmul(X.T, y))
         
+        # theta_n = theta_n.T
         ###########################################################################
 
         return theta_n
@@ -121,7 +123,7 @@ class LinearReg_SquaredLoss(LinearRegressor_Multi):
     """
 
     def loss (self,X,y):
-        num_examples, dim = X.shape
+        num_examples,dim = X.shape
         J = 0
         grad = np.zeros((dim,))
         ###########################################################################
@@ -129,9 +131,10 @@ class LinearReg_SquaredLoss(LinearRegressor_Multi):
         # Calculate J (loss) and grad (gradient) wrt to X,y, and self.theta.      #
         #  2-3 lines of code expected                                             #
         ###########################################################################
+        m = X.shape[0]
         predict = np.matmul(self.theta, X.T)   # shape (1, N)
-        J = np.power(np.linalg.norm(predict-y), 2) / (2 * num_examples)
-        grad = np.matmul(predict - y, X) / num_examples    # shape(1,N) * (N, D) -> same as theta
+        J = np.power(np.linalg.norm(predict-y), 2)/ (2 * m)
+        grad = np.matmul(predict - y, X) / m    # shape(1,N) * (N, D) -> same as theta
 
         ###########################################################################
         #                           END OF YOUR CODE                              #

@@ -87,7 +87,7 @@ class LinearRegressor:
         # Implement this method. Store the predicted outputs in y_pred.           #
         #    One line of code expected                                            #
         ###########################################################################
-        y_pred = np.matmul(self.theta, X.T)   
+        y_pred = np.matmul(self.theta, X.T)    
 
         ###########################################################################
         #                           END OF YOUR CODE                              #
