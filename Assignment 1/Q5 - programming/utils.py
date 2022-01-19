@@ -57,9 +57,9 @@ def learning_curve(X,y,Xval,yval,reg):
     # 7 lines of code expected                                                #
     ###########################################################################
     reglinear_reg = RegularizedLinearReg_SquaredLoss()
-    for i in range(1,num_examples):
-        X_train_sub = X[:i]
-        y_train_sub = y[:i]
+    for i in range(num_examples):
+        X_train_sub = X[:i+1]
+        y_train_sub = y[:i+1]
         theta_opt = reglinear_reg.train(X_train_sub,y_train_sub,reg,num_iters=1000)        
         J_train_sub = reglinear_reg.loss(theta_opt, X_train_sub, y_train_sub, 0)
         J_val = reglinear_reg.loss(theta_opt, Xval, yval, 0)
@@ -97,9 +97,10 @@ def validation_curve(X,y,Xval,yval):
     # TODO: compute error_train and error_val                                 #
     # 5 lines of code expected                                                #
     ###########################################################################
+    
     reglinear_reg = RegularizedLinearReg_SquaredLoss()
     for i,reg in enumerate(reg_vec):
-        theta_opt = reglinear_reg.train(X,y,reg,num_iters=1000)        
+        theta_opt = reglinear_reg.train(X,y,reg,num_iters=10000)        
         J_train = reglinear_reg.loss(theta_opt, X, y, 0)
         J_val = reglinear_reg.loss(theta_opt, Xval, yval, 0)
         
@@ -162,24 +163,24 @@ def averaged_learning_curve(X,y,Xval,yval,reg):
 #############################################################################
     
 def load_mat(fname):
-  d = scipy.io.loadmat(fname)  # load matlab file
-  X = d['X']
-  y = d['y']
-  Xval = d['Xval']
-  yval = d['yval']
-  Xtest = d['Xtest']
-  ytest = d['ytest']
+    d = scipy.io.loadmat(fname)  # load matlab file
+    X = d['X']
+    y = d['y']
+    Xval = d['Xval']
+    yval = d['yval']
+    Xtest = d['Xtest']
+    ytest = d['ytest']
 
   # need reshaping!
 
-  X = np.reshape(X,(len(X),))
-  y = np.reshape(y,(len(y),))
-  Xtest = np.reshape(Xtest,(len(Xtest),))
-  ytest = np.reshape(ytest,(len(ytest),))
-  Xval = np.reshape(Xval,(len(Xval),))
-  yval = np.reshape(yval,(len(yval),))
+    X = np.reshape(X,(len(X),))
+    y = np.reshape(y,(len(y),))
+    Xtest = np.reshape(Xtest,(len(Xtest),))
+    ytest = np.reshape(ytest,(len(ytest),))
+    Xval = np.reshape(Xval,(len(Xval),))
+    yval = np.reshape(yval,(len(yval),))
 
-  return X, y, Xtest, ytest, Xval, yval
+    return X, y, Xtest, ytest, Xval, yval
 
 
 

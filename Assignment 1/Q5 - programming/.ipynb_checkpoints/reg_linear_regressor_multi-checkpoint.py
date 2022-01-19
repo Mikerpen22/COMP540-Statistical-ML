@@ -134,9 +134,8 @@ class RegularizedLinearReg_SquaredLoss(RegularizedLinearRegressor_Multi):
         ###########################################################################
         predict = np.matmul(theta, X.T)   # shape (1, N)
         theta_exclude_bias = theta[1:] 
-        J = np.power(np.linalg.norm(predict-y), 2) / (2 * num_examples) + np.power((reg * np.linalg.norm(theta_exclude_bias)),2) / (2*num_examples)
+        J = np.linalg.norm(predict-y)**2 / (2 * num_examples) + reg * np.linalg.norm(theta_exclude_bias)**2 / (2.0*num_examples)
         
-
         ###########################################################################
         #                           END OF YOUR CODE                              #
         ###########################################################################
@@ -182,14 +181,16 @@ class LassoLinearReg_SquaredLoss(RegularizedLinearRegressor_Multi):
         num_examples,dim = X.shape
         J = 0
         grad = np.zeros((dim,))
+        
         ###########################################################################
         # TODO:                                                                   #
         # Calculate J (loss) wrt to X,y, and theta.                               #
         #  2 lines of code expected                                               #
         ###########################################################################
+        predict = np.dot(X, theta)   # shape (1, N)
+        theta_exclude_bias = theta[1:]
+        J = np.sum((y-predict)**2) / (2.0*num_examples) + (reg * np.sum(np.abs(theta_exclude_bias))) / (1.0*num_examples)
         
-
-
         ###########################################################################
         #                           END OF YOUR CODE                              #
         ###########################################################################
@@ -205,7 +206,8 @@ class LassoLinearReg_SquaredLoss(RegularizedLinearRegressor_Multi):
         # Calculate gradient of loss function wrt to X,y, and theta.              #
         #  3 lines of code expected                                               #
         ###########################################################################
-
+        grad[0] = 1.0 / num_examples * ((X @ np.array(theta).T - y).T @ X)[0]
+        grad[1:] = 1.0 / num_examples * ((X @ np.array(theta).T - y).T @ X)[1:] + reg / num_examples * np.sign(theta[1:])
 
 
         ###########################################################################
