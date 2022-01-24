@@ -23,7 +23,7 @@ def feature_normalize(X):
     # TODO: modify the three lines below to return the correct values
 
     mu = X.mean(axis=0)
-    sigma = X.mean(axis=0)
+    sigma = X.std(axis=0)
     X_norm = (X-mu)/sigma
   
     ########################################################################

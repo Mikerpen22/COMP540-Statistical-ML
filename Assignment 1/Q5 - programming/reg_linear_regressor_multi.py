@@ -187,10 +187,10 @@ class LassoLinearReg_SquaredLoss(RegularizedLinearRegressor_Multi):
         # Calculate J (loss) wrt to X,y, and theta.                               #
         #  2 lines of code expected                                               #
         ###########################################################################
-        predict = np.dot(X, theta)   # shape (1, N)
+        y_pred = np.dot(X, theta)   # shape (1, N)
         theta_exclude_bias = theta[1:]
-        J = np.sum((y-predict)**2) / (2.0*num_examples) + (reg * np.sum(np.abs(theta_exclude_bias))) / (1.0*num_examples)
-        
+        J = np.sum(np.square(y_pred-y)) / (2.0*num_examples) + (reg/num_examples) * np.linalg.norm(theta_exclude_bias, 1)
+ 
         ###########################################################################
         #                           END OF YOUR CODE                              #
         ###########################################################################
@@ -206,14 +206,19 @@ class LassoLinearReg_SquaredLoss(RegularizedLinearRegressor_Multi):
         # Calculate gradient of loss function wrt to X,y, and theta.              #
         #  3 lines of code expected                                               #
         ###########################################################################
-        predict = np.matmul(theta, X.T)   # shape (1, N)
+        y_pred = np.dot(X, theta)   # shape (1, N)
         # For dim 0
-        grad0 = (np.matmul(predict - y, X) / num_examples)[0]
+        # print(X[0].shape, y.shape)     # (7,)   &    (12,)
+        grad0 = (1.0/num_examples)*(np.matmul(X.T[0], y_pred - y)) 
         # For dim 1~N
-        sign_theta = (theta >= 0)
-        grad1 = (np.matmul(predict - y, X) / num_examples + (reg/num_examples*sign_theta))[1:]
-        grad = np.hstack( (grad0, grad1) )
 
+        grad1 = (1.0/num_examples)*(np.matmul(X.T[1:],y_pred - y) + reg * np.sign(theta[1:])) 
+        grad = np.hstack( (grad0, grad1) ) 
+
+        # y_pred = np.dot(X, theta)
+        # grad[0] = (1/y.size)*(np.dot(X.T[0], y_pred - y))
+        # grad[1:] = (1/y.size)*(np.dot(X.T[1:], y_pred - y) +
+        #                        np.asarray(reg)*np.sign(theta[1:]))
 
         ###########################################################################
         #                           END OF YOUR CODE                              #
