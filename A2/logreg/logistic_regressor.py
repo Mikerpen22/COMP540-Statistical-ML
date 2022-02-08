@@ -54,7 +54,7 @@ class LogisticRegressor:
 
     def loss(self, *args):
         """
-        Compute the logistic loss function 
+        Compute the logistic loss function
 
 
         Inputs:
@@ -81,7 +81,7 @@ class LogisticRegressor:
 
     def grad_loss(self, *args):
         """
-        Compute the gradient logistic loss function 
+        Compute the gradient logistic loss function
 
 
         Inputs:
@@ -99,8 +99,8 @@ class LogisticRegressor:
         # regression                                                             #
         # TODO: 1 line of code expected                                          #
         ##########################################################################
-        h = utils.sigmoid(np.matmul(X, theta))
-        grad = np.matmul(X.T,  (h - y)) / m
+        h = utils.sigmoid(np.matmul(X, theta))  # (m,1)
+        grad = np.matmul(X.T,  (h - y)) / m     # (D,1)
 
         ###########################################################################
         #                           END OF YOUR CODE                              #
@@ -188,7 +188,7 @@ class RegLogisticRegressor:
 
     def loss(self, *args):
         """
-        Compute the logistic loss function 
+        Compute the logistic loss function
 
 
         Inputs:
@@ -208,6 +208,9 @@ class RegLogisticRegressor:
         # Compute the loss function for regularized logistic regression          #
         # TODO: 1-2 lines of code expected                                       #
         ##########################################################################
+        h = utils.sigmoid(np.matmul(X, theta))   # (m, 1)
+        J = (np.sum(-np.dot(y, np.log(h)) - np.dot(1-y, np.log(1-h))) /
+             m) + reg * np.power(np.linalg.norm(theta[1:]), 2) / (2.0 * m)
 
         ###########################################################################
         #                           END OF YOUR CODE                              #
@@ -216,7 +219,7 @@ class RegLogisticRegressor:
 
     def grad_loss(self, *args):
         """
-        Compute the gradient logistic loss function 
+        Compute the gradient logistic loss function
 
 
         Inputs:
@@ -236,7 +239,12 @@ class RegLogisticRegressor:
         # regression                                                             #
         # TODO: 2 lines of code expected                                          #
         ##########################################################################
-
+        h = utils.sigmoid(np.matmul(X, theta))
+        theta_drop_bias = theta[1:]
+        theta_drop_bias = np.hstack([0, theta_drop_bias])
+        grad = (np.matmul(X.T,  (h - y)) / m) + reg*(theta_drop_bias/m)
+        # grad = np.mean(np.multiply(X, (utils.sigmoid(np.dot(X, theta))-y)
+        #                [:, None]), axis=0) + reg / m * (np.hstack([0, theta[1:]]))
         ###########################################################################
         #                           END OF YOUR CODE                              #
         ###########################################################################
@@ -261,7 +269,9 @@ class RegLogisticRegressor:
         # TODO: 1 line of code expected                                           #
         #                                                                         #
         ###########################################################################
-
+        # y_pred = (utils.sigmoid(np.dot(X, self.theta))
+        #           >= 0.5).astype(int)      # (m,1)
+        y_pred = (np.dot(X, self.theta) > 0) + 0
         ###########################################################################
         #                           END OF YOUR CODE                              #
         ###########################################################################
