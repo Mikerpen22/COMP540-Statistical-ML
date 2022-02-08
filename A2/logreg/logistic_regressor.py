@@ -1,22 +1,21 @@
 import numpy as np
-import utils 
+import utils
 import math
-import scipy 
+import scipy
 from scipy import optimize
 import random
 from scipy.special import xlogy
+
 
 class LogisticRegressor:
 
     def __init__(self):
         self.theta = None
 
-
-    def train(self,X,y,num_iters=1000):
-
+    def train(self, X, y, num_iters=1000):
         """
         Train a linear model using scipy's function minimization.
-        
+
         Inputs:
         - X: N X D array of training data. Each training point is a D-dimensional
          row.
@@ -27,28 +26,29 @@ class LogisticRegressor:
         - optimal value for theta
         """
 
-        num_train,dim = X.shape
-        
+        num_train, dim = X.shape
+
         # standardize X so that each column has zero mean and unit variance
         # remember to take out the first column and do the feature normalize
 
-        X_without_1s = X[:,1:]
+        X_without_1s = X[:, 1:]  # Select all but first col
         X_norm, mu, sigma = utils.std_features(X_without_1s)
 
         # add the ones back and assemble the XX matrix for training
 
-        XX = np.vstack([np.ones((X_norm.shape[0],)),X_norm.T]).T
-        theta = np.zeros((dim,))
+        XX = np.vstack([np.ones((X_norm.shape[0],)), X_norm.T]
+                       ).T       # (N, D)
+        theta = np.zeros((dim,))    # (D, 1)
 
         # Run scipy's fmin algorithm to run gradient descent
 
-        theta_opt_norm = scipy.optimize.fmin_bfgs(self.loss, theta, fprime = self.grad_loss, args=(XX,y),maxiter=num_iters)
+        theta_opt_norm = scipy.optimize.fmin_bfgs(
+            self.loss, theta, fprime=self.grad_loss, args=(XX, y), maxiter=num_iters)
 
-        # convert theta back to work with original X
+        # convert theta back to work with original X -> weird?
         theta_opt = np.zeros(theta_opt_norm.shape)
         theta_opt[1:] = theta_opt_norm[1:]/sigma
-        theta_opt[0] = theta_opt_norm[0] - np.dot(theta_opt_norm[1:],mu/sigma)
-
+        theta_opt[0] = theta_opt_norm[0] - np.dot(theta_opt_norm[1:], mu/sigma)
 
         return theta_opt
 
@@ -63,16 +63,16 @@ class LogisticRegressor:
 
         Returns: loss as a single float
         """
-        theta,X,y = args
-        m,dim = X.shape
+        theta, X, y = args
+        m, dim = X.shape
         J = 0
 
         ##########################################################################
         # Compute the loss function for unregularized logistic regression        #
         # TODO: 1-2 lines of code expected                                       #
         ##########################################################################
-                
-
+        h = utils.sigmoid(np.matmul(X, theta))   # (m, 1)
+        J = np.sum(-np.dot(y, np.log(h)) - np.dot(1-y, np.log(1-h))) / m
 
         ###########################################################################
         #                           END OF YOUR CODE                              #
@@ -90,8 +90,8 @@ class LogisticRegressor:
 
         Returns:  gradient with respect to theta; an array of the same shape as theta
         """
-        theta,X,y = args
-        m,dim = X.shape
+        theta, X, y = args
+        m, dim = X.shape
         grad = np.zeros((dim,))
 
         ##########################################################################
@@ -99,14 +99,13 @@ class LogisticRegressor:
         # regression                                                             #
         # TODO: 1 line of code expected                                          #
         ##########################################################################
-       
-
+        h = utils.sigmoid(np.matmul(X, theta))
+        grad = np.matmul(X.T,  (h - y)) / m
 
         ###########################################################################
         #                           END OF YOUR CODE                              #
         ###########################################################################
         return grad
-        
 
     def predict(self, X):
         """
@@ -126,14 +125,12 @@ class LogisticRegressor:
         # Compute the predicted outputs for X                                     #
         # TODO: 1 line of code expected                                           #
         ###########################################################################
-         
-
-
+        # (1,d) * (d, n) -> (1, n)
+        y_pred = (utils.sigmoid(X.dot(self.theta)) >= 0.5).astype(int)
         ###########################################################################
         #                           END OF YOUR CODE                              #
         ###########################################################################
         return y_pred
-
 
 
 class RegLogisticRegressor:
@@ -141,11 +138,10 @@ class RegLogisticRegressor:
     def __init__(self):
         self.theta = None
 
-    def train(self,X,y,reg=1e-5,num_iters=1000,norm=True):
-
+    def train(self, X, y, reg=1e-5, num_iters=1000, norm=True):
         """
         Train a linear model using scipy's function minimization.
-        
+
         Inputs:
         - X: N X D array of training data. Each training point is a D-dimensional
          row.
@@ -159,16 +155,16 @@ class RegLogisticRegressor:
         - optimal value for theta
         """
 
-        num_train,dim = X.shape
+        num_train, dim = X.shape
 
         # standardize features if norm=True
 
         if norm:
             # take out the first column and do the feature normalize
-            X_without_1s = X[:,1:]
+            X_without_1s = X[:, 1:]
             X_norm, mu, sigma = utils.std_features(X_without_1s)
             # add the ones back
-            XX = np.vstack([np.ones((X_norm.shape[0],)),X_norm.T]).T
+            XX = np.vstack([np.ones((X_norm.shape[0],)), X_norm.T]).T
         else:
             XX = X
 
@@ -176,17 +172,17 @@ class RegLogisticRegressor:
         theta = np.zeros((dim,))
 
         # Run scipy's fmin algorithm to run gradient descent
-        theta_opt_norm = scipy.optimize.fmin_bfgs(self.loss, theta, fprime = self.grad_loss, args=(XX,y,reg),maxiter=num_iters)
-
+        theta_opt_norm = scipy.optimize.fmin_bfgs(
+            self.loss, theta, fprime=self.grad_loss, args=(XX, y, reg), maxiter=num_iters)
 
         if norm:
             # convert theta back to work with original X
             theta_opt = np.zeros(theta_opt_norm.shape)
             theta_opt[1:] = theta_opt_norm[1:]/sigma
-            theta_opt[0] = theta_opt_norm[0] - np.dot(theta_opt_norm[1:],mu/sigma)
+            theta_opt[0] = theta_opt_norm[0] - \
+                np.dot(theta_opt_norm[1:], mu/sigma)
         else:
             theta_opt = theta_opt_norm
-
 
         return theta_opt
 
@@ -204,15 +200,14 @@ class RegLogisticRegressor:
         - loss as a single float
         - gradient with respect to self.theta; an array of the same shape as theta
         """
-        theta,X,y,reg = args
-        m,dim = X.shape
+        theta, X, y, reg = args
+        m, dim = X.shape
         J = 0
 
         ##########################################################################
         # Compute the loss function for regularized logistic regression          #
         # TODO: 1-2 lines of code expected                                       #
         ##########################################################################
-
 
         ###########################################################################
         #                           END OF YOUR CODE                              #
@@ -233,8 +228,8 @@ class RegLogisticRegressor:
         - loss as a single float
         - gradient with respect to self.theta; an array of the same shape as theta
         """
-        theta,X,y,reg = args
-        m,dim = X.shape
+        theta, X, y, reg = args
+        m, dim = X.shape
         grad = np.zeros((dim,))
         ##########################################################################
         # Compute the gradient of the loss function for regularized logistic     #
@@ -242,12 +237,10 @@ class RegLogisticRegressor:
         # TODO: 2 lines of code expected                                          #
         ##########################################################################
 
-
         ###########################################################################
         #                           END OF YOUR CODE                              #
         ###########################################################################
         return grad
-        
 
     def predict(self, X):
         """
@@ -269,10 +262,7 @@ class RegLogisticRegressor:
         #                                                                         #
         ###########################################################################
 
-
         ###########################################################################
         #                           END OF YOUR CODE                              #
         ###########################################################################
         return y_pred
-
-

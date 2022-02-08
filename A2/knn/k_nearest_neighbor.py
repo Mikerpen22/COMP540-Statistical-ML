@@ -132,7 +132,7 @@ class KNearestNeighbor(object):
         ##########################################################################
         X_train_squared = np.sum(self.X_train**2, axis=1)
         X_test_squared = np.sum(X**2, axis=1).reshape(num_test, 1)
-        X_test_squared = np.hstack([X_test_squared]*num_train)
+        X_test_squared = np.hstack([X_test_squared]*num_train)  
         crossterm = -2*np.matmul(X, self.X_train.T)
 
         dists = (X_test_squared +

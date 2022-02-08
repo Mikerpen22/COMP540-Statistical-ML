@@ -14,13 +14,12 @@ from sklearn.model_selection import KFold
 #     TODO: 1 line of code expected                                                  #
 ######################################################################################
 
-def sigmoid (z):
-  
-    sig = np.zeros(z.shape)
-    # Your code here
-    
-    # End your code
+def sigmoid(z):
 
+    # sig = np.zeros(z.shape)
+    # Your code here
+    sig = 1 / (1+np.exp(-z))
+    # End your code
     return sig
 
 ######################################################################################
@@ -30,11 +29,11 @@ def sigmoid (z):
 #     TODO: 1 line of code expected                                                  #
 ######################################################################################
 
+
 def log_features(X):
     logf = np.zeros(X.shape)
     # Your code here
-    
-    
+
     # End your code
     return logf
 
@@ -44,9 +43,10 @@ def log_features(X):
 #     Output: a matrix with every column with zero mean, unit variance               #
 ######################################################################################
 
+
 def std_features(X):
-    mu = np.np.mean(X,axis=0)
-    sigma = np.std(X,axis=0)
+    mu = np.mean(X, axis=0)
+    sigma = np.std(X, axis=0)
     X_norm = (X - mu) / sigma
     return X_norm, mu, sigma
 
@@ -57,13 +57,10 @@ def std_features(X):
 #     TODO: 1 line of code expected                                                  #
 ######################################################################################
 
+
 def bin_features(X):
     tX = np.zeros(X.shape)
     # your code here
-    
-
-             
-    
 
     # end your code
     return tX
@@ -93,12 +90,13 @@ def bin_features(X):
 # folds.
 # Do this for each lambda in the range and pick the best one
 #
-def select_lambda_crossval(X,y,lambda_low,lambda_high,lambda_step,penalty):
+
+
+def select_lambda_crossval(X, y, lambda_low, lambda_high, lambda_step, penalty):
 
     best_lambda = lambda_low
     # Your code here
     # Implement the algorithm above.
-    
 
     # end your code
 
@@ -108,13 +106,13 @@ def select_lambda_crossval(X,y,lambda_low,lambda_high,lambda_step,penalty):
 ######################################################################################
 
 def load_mat(fname):
-  d = scipy.io.loadmat(fname)
-  Xtrain = d['Xtrain']
-  ytrain = d['ytrain']
-  Xtest = d['Xtest']
-  ytest = d['ytest']
+    d = scipy.io.loadmat(fname)
+    Xtrain = d['Xtrain']
+    ytrain = d['ytrain']
+    Xtest = d['Xtest']
+    ytest = d['ytest']
 
-  return Xtrain, ytrain, Xtest, ytest
+    return Xtrain, ytrain, Xtest, ytest
 
 
 def load_spam_data():
@@ -127,6 +125,8 @@ def load_spam_data():
     # need to flatten the ytrain and ytest
     ytrain = np.array([x[0] for x in ytrain1])
     ytest = np.array([x[0] for x in ytest1])
-    return Xtrain,Xtest,ytrain,ytest
+    return Xtrain, Xtest, ytrain, ytest
 
-    
+
+# For testing purpose
+sigmoid(0)
