@@ -1,3 +1,6 @@
+from audioop import avg
+from cgi import test
+from cv2 import line, split
 import numpy as np
 import sklearn
 from sklearn import model_selection
@@ -33,7 +36,7 @@ def sigmoid(z):
 def log_features(X):
     logf = np.zeros(X.shape)
     # Your code here
-
+    logf = np.log(1 + X)
     # End your code
     return logf
 
@@ -61,7 +64,7 @@ def std_features(X):
 def bin_features(X):
     tX = np.zeros(X.shape)
     # your code here
-
+    tX = X > 0 + 0
     # end your code
     return tX
 
@@ -94,9 +97,37 @@ def bin_features(X):
 
 def select_lambda_crossval(X, y, lambda_low, lambda_high, lambda_step, penalty):
 
+    lambdas = np.arange(lambda_low, lambda_high, lambda_step)
+
     best_lambda = lambda_low
     # Your code here
     # Implement the algorithm above.
+
+    kf = model_selection.KFold(n_splits=10)
+    splitAt = kf.split(X)
+
+    reg_acc = []
+
+    for train_idx, val_idx in splitAt:
+        X_train, X_val = X[train_idx], X[val_idx]
+        y_train, y_val = y[train_idx], y[val_idx]
+        # print(type(y_train))
+        accuracies = []
+        clf = linear_model.LogisticRegression(
+            penalty=penalty, C=1.0, solver='liblinear')
+        for reg in lambdas:
+            clf.set_params(C=1/reg)
+            clf.fit(X_train, y_train)
+            predy = clf.predict(X_val)
+
+            acc = 1.0*np.sum(predy == y_val)/y_val.shape[0]
+            accuracies.append(acc)
+        reg_acc.append(accuracies)
+
+    reg_acc = np.array(reg_acc)
+    reg_acc = np.sum(reg_acc, axis=0)/reg_acc.shape[0]
+
+    best_lambda = lambdas[np.argmax(reg_acc)]
 
     # end your code
 

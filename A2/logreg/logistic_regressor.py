@@ -126,7 +126,7 @@ class LogisticRegressor:
         # TODO: 1 line of code expected                                           #
         ###########################################################################
         # (1,d) * (d, n) -> (1, n)
-        y_pred = (utils.sigmoid(X.dot(self.theta)) >= 0.5).astype(int)
+        y_pred = (np.matmul(X, self.theta) > 0).astype(int)
         ###########################################################################
         #                           END OF YOUR CODE                              #
         ###########################################################################
