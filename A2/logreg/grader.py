@@ -129,7 +129,7 @@ if __name__ == "__main__":
         XX = np.vstack([np.ones((X_poly.shape[0],)),X_poly.T]).T
         reg_lr1 = logreg.RegLogisticRegressor()
         reg = 100.0
-        theta_opt = reg_lr1.train(XX,y,reg=reg,num_iters=1000,norm=False)
+        theta_opt = reg_lr1.train(XX,y,reg=reg,num_iters=1000,norm=True)
         reg_lr1.theta = theta_opt
         predy = reg_lr1.predict(XX)
         accuracy = np.sum(predy==y)/y.size
