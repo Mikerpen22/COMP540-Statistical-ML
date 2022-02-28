@@ -123,8 +123,8 @@ def preprocess(X_train, X_val, X_test):
     # first: compute the image mean based on the training data
 
     mean_image = np.mean(X_train, axis=0)
-#  plt.figure(figsize=(4,4))
-#  plt.imshow(mean_image.reshape((32,32,3)).astype('uint8')) # visualize the mean image
+    #  plt.figure(figsize=(4,4))
+    #  plt.imshow(mean_image.reshape((32,32,3)).astype('uint8')) # visualize the mean image
 
     # second: subtract the mean image from train and test data
 
