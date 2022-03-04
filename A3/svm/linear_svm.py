@@ -59,6 +59,7 @@ def svm_loss_naive(theta, X, y, reg):
 
         # Update the grad
 
+    ## Perhaps try /m after adding reg
     J /= m
     J += reg * np.sum(np.square(theta)) / 2.0
     #############################################################################
