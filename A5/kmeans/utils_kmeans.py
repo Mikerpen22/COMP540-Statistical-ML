@@ -1,5 +1,10 @@
+from shutil import copy
+import matplotlib.cm as cm
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.spatial.distance import cdist
+from numpy.random import shuffle, permutation
+
 
 def find_closest_centroids(X, centroids):
     """
@@ -13,7 +18,7 @@ def find_closest_centroids(X, centroids):
     K = centroids.shape[0]
 
     # You need to return the following variable correctly.
-    idx = np.zeros((X.shape[0],),dtype=int)
+    idx = np.zeros((X.shape[0],), dtype=int)
 
     ######################### YOUR CODE HERE ########################################
     # Instructions: Go over every example, find its closest centroid, and store     #
@@ -22,10 +27,8 @@ def find_closest_centroids(X, centroids):
     #               closest to example i. Hence, it should be a value in the        #
     #               range 0..K-1                                                    #
     ################################################################################
-
-    
-    
-
+    pair_dists = cdist(X, centroids)  # final shape = (mA, mB)
+    idx = np.argmin(pair_dists, axis=1)
 
     ################################################################################
     #             END OF YOUR CODE                                                 #
@@ -47,7 +50,7 @@ def compute_centroids(X, idx, K):
     """
 
     # You need to return the following variables correctly.
-    centroids = np.zeros((K, X.shape[1]))
+    centroids = np.zeros((K, X.shape[1]))   # (K, d)
 
     ########################= YOUR CODE HERE ######################################
     # Instructions: Go over every centroid and compute mean of all points that    #
@@ -56,35 +59,34 @@ def compute_centroids(X, idx, K):
     #               centroid i.                                                   #
     ###############################################################################
 
-   
-
+    for k in range(K):
+        mask = (idx == k).astype(int)
+        centroids[k] = (np.matmul(X.T, mask)/np.sum(mask)).T    # (1, d)
     ################################################################################
     #             END OF YOUR CODE                                                 #
     ################################################################################
     return centroids
 
 
-def kmeans_init_centroids(X,K):
+def kmeans_init_centroids(X, K):
     """
     This function initializes K centroids that are to be used on the dataset X.
     returns K initial centroids in X
     """
-    centroids = np.zeros((K,X.shape[1]))
+    centroids = np.zeros((K, X.shape[1]))
     #
     #######################= YOUR CODE HERE ######################################
-    #  Construct a random permutation of the examples and pick the first K items  #                                              
+    #  Construct a random permutation of the examples and pick the first K items  #
     ###############################################################################
-    
-    
-    
+    # Multi-dimensional arrays are only shuffled along the first axis:
+
+    X_shuffle = permutation(X)
+    centroids = X_shuffle[0:K, :]
     ################################################################################
     #             END OF YOUR CODE                                                 #
     ################################################################################
     return centroids
 
-
-
-import matplotlib.cm as cm
 
 def run_kmeans(X, initial_centroids, max_iters, plot_progress=False):
     """
@@ -100,13 +102,13 @@ def run_kmeans(X, initial_centroids, max_iters, plot_progress=False):
     centroids, a Kxd matrix of the computed centroids and idx, a m x 1 
     vector of centroid assignments (i.e. each entry in range [0..K-1])
     """
-   
+
     # Plot the data if we are plotting progress
     if plot_progress:
         plt.figure()
 
     # Initialize values
-    m, d  = X.shape;
+    m, d = X.shape
     K = initial_centroids.shape[0]
     centroids = initial_centroids
     previous_centroids = centroids
@@ -114,53 +116,52 @@ def run_kmeans(X, initial_centroids, max_iters, plot_progress=False):
 
     # Run K-Means
     for i in range(max_iters):
-    
+
         # Output progress
-        print ('K-Means iteration ', i, max_iters)
-    
+        print('K-Means iteration ', i, max_iters)
+
         # For each example in X, assign it to the closest centroid
-        idx = find_closest_centroids(X, centroids);
-    
+        idx = find_closest_centroids(X, centroids)
+
         # Optionally, plot progress here
         if plot_progress:
-            colors = cm.rainbow(np.linspace(0,1,K))
-            plot_progress_kmeans(X, idx,range(K),colors,'','',centroids, previous_centroids, idx, K, i);
-            previous_centroids = centroids;
+            colors = cm.rainbow(np.linspace(0, 1, K))
+            plot_progress_kmeans(X, idx, range(
+                K), colors, '', '', centroids, previous_centroids, idx, K, i)
+            previous_centroids = centroids
 
-    
         # Given the memberships, compute new centroids
-        centroids = compute_centroids(X, idx, K);
+        centroids = compute_centroids(X, idx, K)
 
     return centroids, idx
 
 
-def plot_progress_kmeans(X,y,labels,colors,xlabel,ylabel,centroids,previous_centroids,idx,K,iter):
-    
-    plt.title('Iteration '+ str(iter))
+def plot_progress_kmeans(X, y, labels, colors, xlabel, ylabel, centroids, previous_centroids, idx, K, iter):
+
+    plt.title('Iteration ' + str(iter))
     for i in range(len(labels)):
-        Xl = X[np.where(y==labels[i])]
-        plt.scatter(Xl[:,0],Xl[:,1],c=[colors[i]], s=40)
+        Xl = X[np.where(y == labels[i])]
+        plt.scatter(Xl[:, 0], Xl[:, 1], c=[colors[i]], s=40)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
 
     # plot the centroids
     for i in range(len(centroids)):
-        plt.plot([previous_centroids[i,0], centroids[i,0]], [previous_centroids[i,1], centroids[i,1]], color='k', linestyle='-', linewidth=2)
-        plt.plot(previous_centroids[i,0],previous_centroids[i,1],color = 'black',marker='x', markersize=3,mew=5)
-    
+        plt.plot([previous_centroids[i, 0], centroids[i, 0]], [
+                 previous_centroids[i, 1], centroids[i, 1]], color='k', linestyle='-', linewidth=2)
+        plt.plot(previous_centroids[i, 0], previous_centroids[i, 1],
+                 color='black', marker='x', markersize=3, mew=5)
+
 # X is two dimensional data (x1, x2)
 # y is a vector of labels from 0 to K-1
 # colors are a list of K colors, and legend is a list of K legends
 
-def plot_cluster_data(X,labels,y,colors,xlabel,ylabel,legend):
+
+def plot_cluster_data(X, labels, y, colors, xlabel, ylabel, legend):
     fig = plt.figure()
     for i in range(len(labels)):
-        Xl = X[np.where(y==labels[i])]
-        plt.scatter(Xl[:,0],Xl[:,1],c=[colors[i]], s=40, label = legend[i])
+        Xl = X[np.where(y == labels[i])]
+        plt.scatter(Xl[:, 0], Xl[:, 1], c=[colors[i]], s=40, label=legend[i])
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.legend(loc="upper right")
-
-
-
-
