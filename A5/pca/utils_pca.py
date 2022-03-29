@@ -63,7 +63,7 @@ def recover_data(Z, U, K):
     #         YOUR CODE HERE                                #
     #########################################################
     eigen_bases = U[:, 0:K]
-    X_rec = np.matmul(Z, eigen_bases.T)
+    X_rec = np.matmul(Z, eigen_bases.T)     # (D,K) * (K, D) -> (D, D)
     ########################################################
     #           END YOUR CODE                              #
     ########################################################
