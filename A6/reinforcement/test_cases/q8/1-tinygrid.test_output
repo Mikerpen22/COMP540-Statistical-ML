@@ -1,28 +1,11 @@
 weights_k_0: """
-{((0, 0), 'exit'): 0,
- ((0, 1), 'east'): 0,
- ((0, 1), 'north'): 0,
- ((0, 1), 'south'): 0,
- ((0, 1), 'west'): 0,
- ((0, 2), 'exit'): 0}
-"""
-
-q_values_k_0_action_east: """
-           illegal
-            0.0000
-           illegal
+{}
 """
 
 q_values_k_0_action_south: """
            illegal
             0.0000
            illegal
-"""
-
-q_values_k_0_action_exit: """
-            0.0000
-           illegal
-            0.0000
 """
 
 q_values_k_0_action_north: """
@@ -37,31 +20,26 @@ q_values_k_0_action_west: """
            illegal
 """
 
-weights_k_1: """
-{((0, 0), 'exit'): 1.0,
- ((0, 1), 'east'): 0,
- ((0, 1), 'north'): 0,
- ((0, 1), 'south'): 0,
- ((0, 1), 'west'): 0,
- ((0, 2), 'exit'): 0}
+q_values_k_0_action_exit: """
+            0.0000
+           illegal
+            0.0000
 """
 
-q_values_k_1_action_east: """
+q_values_k_0_action_east: """
            illegal
             0.0000
            illegal
+"""
+
+weights_k_1: """
+{}
 """
 
 q_values_k_1_action_south: """
            illegal
             0.0000
            illegal
-"""
-
-q_values_k_1_action_exit: """
-            0.0000
-           illegal
-            1.0000
 """
 
 q_values_k_1_action_north: """
@@ -76,31 +54,26 @@ q_values_k_1_action_west: """
            illegal
 """
 
-weights_k_2: """
-{((0, 0), 'exit'): 1.0,
- ((0, 1), 'east'): 0,
- ((0, 1), 'north'): 0,
- ((0, 1), 'south'): 0,
- ((0, 1), 'west'): 0,
- ((0, 2), 'exit'): -1.0}
+q_values_k_1_action_exit: """
+            0.0000
+           illegal
+            0.0000
 """
 
-q_values_k_2_action_east: """
+q_values_k_1_action_east: """
            illegal
             0.0000
            illegal
+"""
+
+weights_k_2: """
+{}
 """
 
 q_values_k_2_action_south: """
            illegal
             0.0000
            illegal
-"""
-
-q_values_k_2_action_exit: """
-           -1.0000
-           illegal
-            1.0000
 """
 
 q_values_k_2_action_north: """
@@ -115,31 +88,26 @@ q_values_k_2_action_west: """
            illegal
 """
 
-weights_k_3: """
-{((0, 0), 'exit'): 1.9,
- ((0, 1), 'east'): 0,
- ((0, 1), 'north'): 0,
- ((0, 1), 'south'): 0,
- ((0, 1), 'west'): 0,
- ((0, 2), 'exit'): -1.0}
+q_values_k_2_action_exit: """
+            0.0000
+           illegal
+            0.0000
 """
 
-q_values_k_3_action_east: """
+q_values_k_2_action_east: """
            illegal
             0.0000
            illegal
+"""
+
+weights_k_3: """
+{}
 """
 
 q_values_k_3_action_south: """
            illegal
             0.0000
            illegal
-"""
-
-q_values_k_3_action_exit: """
-           -1.0000
-           illegal
-            1.9000
 """
 
 q_values_k_3_action_north: """
@@ -154,31 +122,26 @@ q_values_k_3_action_west: """
            illegal
 """
 
-weights_k_4: """
-{((0, 0), 'exit'): 1.9,
- ((0, 1), 'east'): 0,
- ((0, 1), 'north'): 0,
- ((0, 1), 'south'): 0.095,
- ((0, 1), 'west'): 0,
- ((0, 2), 'exit'): -1.0}
+q_values_k_3_action_exit: """
+            0.0000
+           illegal
+            0.0000
 """
 
-q_values_k_4_action_east: """
+q_values_k_3_action_east: """
            illegal
             0.0000
            illegal
 """
 
-q_values_k_4_action_south: """
-           illegal
-            0.0950
-           illegal
+weights_k_4: """
+{}
 """
 
-q_values_k_4_action_exit: """
-           -1.0000
+q_values_k_4_action_south: """
            illegal
-            1.9000
+            0.0000
+           illegal
 """
 
 q_values_k_4_action_north: """
@@ -193,31 +156,26 @@ q_values_k_4_action_west: """
            illegal
 """
 
-weights_k_5: """
-{((0, 0), 'exit'): 2.71,
- ((0, 1), 'east'): 0,
- ((0, 1), 'north'): 0,
- ((0, 1), 'south'): 0.095,
- ((0, 1), 'west'): 0,
- ((0, 2), 'exit'): -1.0}
+q_values_k_4_action_exit: """
+            0.0000
+           illegal
+            0.0000
 """
 
-q_values_k_5_action_east: """
+q_values_k_4_action_east: """
            illegal
             0.0000
            illegal
 """
 
-q_values_k_5_action_south: """
-           illegal
-            0.0950
-           illegal
+weights_k_5: """
+{}
 """
 
-q_values_k_5_action_exit: """
-           -1.0000
+q_values_k_5_action_south: """
            illegal
-            2.7100
+            0.0000
+           illegal
 """
 
 q_values_k_5_action_north: """
@@ -232,31 +190,26 @@ q_values_k_5_action_west: """
            illegal
 """
 
-weights_k_6: """
-{((0, 0), 'exit'): 2.71,
- ((0, 1), 'east'): 0,
- ((0, 1), 'north'): 0,
- ((0, 1), 'south'): 0.095,
- ((0, 1), 'west'): 0,
- ((0, 2), 'exit'): -1.9}
+q_values_k_5_action_exit: """
+            0.0000
+           illegal
+            0.0000
 """
 
-q_values_k_6_action_east: """
+q_values_k_5_action_east: """
            illegal
             0.0000
            illegal
 """
 
-q_values_k_6_action_south: """
-           illegal
-            0.0950
-           illegal
+weights_k_6: """
+{}
 """
 
-q_values_k_6_action_exit: """
-           -1.9000
+q_values_k_6_action_south: """
            illegal
-            2.7100
+            0.0000
+           illegal
 """
 
 q_values_k_6_action_north: """
@@ -271,31 +224,26 @@ q_values_k_6_action_west: """
            illegal
 """
 
-weights_k_7: """
-{((0, 0), 'exit'): 3.439,
- ((0, 1), 'east'): 0,
- ((0, 1), 'north'): 0,
- ((0, 1), 'south'): 0.095,
- ((0, 1), 'west'): 0,
- ((0, 2), 'exit'): -1.9}
+q_values_k_6_action_exit: """
+            0.0000
+           illegal
+            0.0000
 """
 
-q_values_k_7_action_east: """
+q_values_k_6_action_east: """
            illegal
             0.0000
            illegal
 """
 
-q_values_k_7_action_south: """
-           illegal
-            0.0950
-           illegal
+weights_k_7: """
+{}
 """
 
-q_values_k_7_action_exit: """
-           -1.9000
+q_values_k_7_action_south: """
            illegal
-            3.4390
+            0.0000
+           illegal
 """
 
 q_values_k_7_action_north: """
@@ -310,31 +258,26 @@ q_values_k_7_action_west: """
            illegal
 """
 
-weights_k_8: """
-{((0, 0), 'exit'): 3.439,
- ((0, 1), 'east'): 0,
- ((0, 1), 'north'): 0,
- ((0, 1), 'south'): 0.095,
- ((0, 1), 'west'): 0,
- ((0, 2), 'exit'): -2.71}
+q_values_k_7_action_exit: """
+            0.0000
+           illegal
+            0.0000
 """
 
-q_values_k_8_action_east: """
+q_values_k_7_action_east: """
            illegal
             0.0000
            illegal
 """
 
-q_values_k_8_action_south: """
-           illegal
-            0.0950
-           illegal
+weights_k_8: """
+{}
 """
 
-q_values_k_8_action_exit: """
-           -2.7100
+q_values_k_8_action_south: """
            illegal
-            3.4390
+            0.0000
+           illegal
 """
 
 q_values_k_8_action_north: """
@@ -349,31 +292,26 @@ q_values_k_8_action_west: """
            illegal
 """
 
-weights_k_9: """
-{((0, 0), 'exit'): 3.439,
- ((0, 1), 'east'): 0,
- ((0, 1), 'north'): 0,
- ((0, 1), 'south'): 0.095,
- ((0, 1), 'west'): 0,
- ((0, 2), 'exit'): -3.439}
+q_values_k_8_action_exit: """
+            0.0000
+           illegal
+            0.0000
 """
 
-q_values_k_9_action_east: """
+q_values_k_8_action_east: """
            illegal
             0.0000
            illegal
 """
 
-q_values_k_9_action_south: """
-           illegal
-            0.0950
-           illegal
+weights_k_9: """
+{}
 """
 
-q_values_k_9_action_exit: """
-           -3.4390
+q_values_k_9_action_south: """
            illegal
-            3.4390
+            0.0000
+           illegal
 """
 
 q_values_k_9_action_north: """
@@ -388,42 +326,49 @@ q_values_k_9_action_west: """
            illegal
 """
 
-weights_k_100: """
-{((0, 0), 'exit'): 9.65663161797075,
- ((0, 1), 'east'): -0.2854481311792464,
- ((0, 1), 'north'): -1.471259211060655,
- ((0, 1), 'south'): 2.565879119379451,
- ((0, 1), 'west'): 0.13305192393167475,
- ((0, 2), 'exit'): -9.749684449500677}
+q_values_k_9_action_exit: """
+            0.0000
+           illegal
+            0.0000
 """
 
-q_values_k_100_action_east: """
+q_values_k_9_action_east: """
            illegal
-           -0.2854
+            0.0000
            illegal
+"""
+
+weights_k_100: """
+{}
 """
 
 q_values_k_100_action_south: """
            illegal
-            2.5659
+            0.0000
            illegal
-"""
-
-q_values_k_100_action_exit: """
-           -9.7497
-           illegal
-            9.6566
 """
 
 q_values_k_100_action_north: """
            illegal
-           -1.4713
+            0.0000
            illegal
 """
 
 q_values_k_100_action_west: """
            illegal
-            0.1331
+            0.0000
+           illegal
+"""
+
+q_values_k_100_action_exit: """
+            0.0000
+           illegal
+            0.0000
+"""
+
+q_values_k_100_action_east: """
+           illegal
+            0.0000
            illegal
 """
 
